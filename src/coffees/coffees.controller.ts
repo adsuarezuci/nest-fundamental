@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
+import { Public } from 'src/common/decorators/public.decorator';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { PaginationQueryDto } from './dto/pagination-query.dto';
@@ -18,9 +19,11 @@ import { Coffee } from './entities/coffee.entity';
 export class CoffeesController {
   constructor(private readonly coffeesAll: CoffeesService) {}
 
+  @Public()
   @Get()
-  findAll(@Query() pagination: PaginationQueryDto): Promise<Coffee[]> {
+  async findAll(@Query() pagination: PaginationQueryDto): Promise<Coffee[]> {
     // const { limit, offset } = pagination;
+    // await new Promise((resolve) => setTimeout(resolve, 5000)); // to see timeout error response
     return this.coffeesAll.findAll(pagination);
   }
 
